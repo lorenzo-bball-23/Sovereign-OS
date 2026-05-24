@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sovereign OS — Neural & Behavioral Reprogramming Engine">
+    <title>Sovereign OS</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Init Overlay -->
+    <div id="init-overlay" class="init-overlay hidden">
+        <div class="init-spinner"></div>
+        <p class="init-text" id="init-status">Building vector index from knowledge base...</p>
+    </div>
+
+    <div id="app">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo"><i class="ph ph-crown"></i></div>
+            <ul class="nav-links">
+                <li class="active" data-route="home" title="Command Center"><i class="ph ph-command"></i></li>
+                <li data-route="progress" title="The Mirror"><i class="ph ph-chart-line-up"></i></li>
+                <li data-route="diary" title="The Vault"><i class="ph ph-vault"></i></li>
+                <li data-route="relations" title="Relations"><i class="ph ph-heart-half"></i></li>
+                <li data-route="homework" title="Homework Lab"><i class="ph ph-flask"></i></li>
+            </ul>
+            <div class="settings" id="settings-btn" title="API Key"><i class="ph ph-gear"></i></div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- API Key Modal -->
+            <div id="api-modal" class="modal hidden">
+                <div class="modal-content glass-panel">
+                    <h3>Sovereign OS</h3>
+                    <p>Paste your free Gemini API key to initialize the kernel.<br>Get one at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com/apikey</a></p>
+                    <input type="password" id="api-key-input" placeholder="AI Studio API Key">
+                    <button id="save-api-key" class="btn primary">Initialize Kernel</button>
+                </div>
+            </div>
+
+            <!-- ═══ HOME ═══ -->
+            <section id="view-home" class="view active">
+                <header>
+                    <h1>Command Center</h1>
+                    <p class="subtitle">Sovereign State Active</p>
+                </header>
+                <div class="priority-stack glass-panel">
+                    <h2>Priority Stack</h2>
+                    <ul id="homework-list"></ul>
+                </div>
+                <div class="input-center">
+                    <div class="input-wrapper">
+                        <textarea id="main-input" placeholder="Initialize thought sequence..."></textarea>
+                        <div class="routing-buttons">
+                            <span>Route →</span>
+                            <button class="route-btn" data-target="diary">Vault</button>
+                            <button class="route-btn" data-target="progress">Mirror</button>
+                            <button class="route-btn" data-target="relations">Relations</button>
+                            <button class="route-btn" data-target="homework">Lab</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ PROGRESS ═══ -->
+            <section id="view-progress" class="view hidden">
+                <header>
+                    <h1>The Mirror</h1>
+                    <p class="subtitle">Clinical Audit & Progress</p>
+                </header>
+                <div class="section-body">
+                    <div class="metrics-grid">
+                        <div class="metric-card glass-panel" title="40% Logs, 40% Tasks, 20% Consistency">
+                            <div class="metric-value" id="m-sovereign">0</div>
+                            <div class="metric-label">Sovereign Score</div>
+                            <div class="metric-sub" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Weighted Average</div>
+                        </div>
+                        <div class="metric-card glass-panel" title="Weighted by task difficulty">
+                            <div class="metric-value" id="m-completion">0%</div>
+                            <div class="metric-label">Task Rate</div>
+                            <div class="metric-sub" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Performance Adjusted</div>
+                        </div>
+                        <div class="metric-card glass-panel" title="Total messages processing trauma/logs">
+                            <div class="metric-value" id="m-depth">0</div>
+                            <div class="metric-label">Journal Depth</div>
+                            <div class="metric-sub" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Processing Volume</div>
+                        </div>
+                        <div class="metric-card glass-panel">
+                            <div class="metric-value" id="m-logs">0</div>
+                            <div class="metric-label">Total Logs</div>
+                            <div class="metric-sub" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Rolling 90-Days</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-label">
+                            <span>Sovereign Progress</span>
+                            <span id="progress-pct">0%</span>
+                        </div>
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <button class="report-btn" id="weekly-report-btn">
+                        <i class="ph ph-file-text"></i> Generate Weekly Report
+                    </button>
+                    <div class="reports-section glass-panel" style="margin-top: 20px;">
+                        <h2>Checkpoints (Reports)</h2>
+                        <div class="reports-list" id="reports-list"></div>
+                    </div>
+                    <div class="chat-container glass-panel">
+                        <div class="chat-history" id="chat-progress"></div>
+                        <div class="chat-input-bar">
+                            <textarea class="section-input" data-route="progress" placeholder="Ask the Mirror for a clinical assessment..."></textarea>
+                            <button class="send-btn" data-route="progress"><i class="ph ph-arrow-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ DIARY ═══ -->
+            <section id="view-diary" class="view hidden">
+                <header>
+                    <h1>The Vault</h1>
+                    <p class="subtitle">Threaded Conversation Sandboxes</p>
+                </header>
+                <div class="section-body sandbox-layout">
+                    <div class="sandbox-sidebar glass-panel">
+                        <button class="new-chat-btn btn primary" data-route="diary">+ New Session</button>
+                        <ul class="chat-list" id="chat-list-diary"></ul>
+                    </div>
+                    <div class="chat-container glass-panel hidden" id="chat-container-diary">
+                        <div class="chat-header"><h3 id="chat-title-diary">Select a session</h3></div>
+                        <div class="chat-history" id="chat-diary"></div>
+                        <div class="chat-input-bar">
+                            <textarea class="section-input" data-route="diary" placeholder="Dump your raw thoughts here..."></textarea>
+                            <button class="send-btn" data-route="diary"><i class="ph ph-arrow-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ RELATIONS ═══ -->
+            <section id="view-relations" class="view hidden">
+                <header>
+                    <h1>Relations</h1>
+                    <p class="subtitle">Attachment Theory & Relationship Audit</p>
+                </header>
+                <div class="section-body sandbox-layout">
+                    <div class="sandbox-sidebar glass-panel">
+                        <button class="new-chat-btn btn primary" data-route="relations">+ New Session</button>
+                        <ul class="chat-list" id="chat-list-relations"></ul>
+                    </div>
+                    <div class="chat-container glass-panel hidden" id="chat-container-relations">
+                        <div class="chat-header"><h3 id="chat-title-relations">Select a session</h3></div>
+                        <div class="chat-history" id="chat-relations"></div>
+                        <div class="chat-input-bar">
+                            <textarea class="section-input" data-route="relations" placeholder="Log a social interaction or relationship thought..."></textarea>
+                            <button class="send-btn" data-route="relations"><i class="ph ph-arrow-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ HOMEWORK ═══ -->
+            <section id="view-homework" class="view hidden">
+                <header>
+                    <h1>Homework Lab</h1>
+                    <p class="subtitle">Ego-Disrupting Concrete Actions</p>
+                </header>
+                <div class="section-body sandbox-layout">
+                    <div class="sandbox-sidebar glass-panel">
+                        <button class="new-chat-btn btn primary" data-route="homework">+ New Session</button>
+                        <ul class="chat-list" id="chat-list-homework"></ul>
+                    </div>
+                    <div class="chat-container glass-panel hidden" id="chat-container-homework">
+                        <div class="chat-header"><h3 id="chat-title-homework">Select a session</h3></div>
+                        <div class="chat-history" id="chat-homework"></div>
+                        <div class="chat-input-bar">
+                            <textarea class="section-input" data-route="homework" placeholder="Report on a completed task or request new homework..."></textarea>
+                            <button class="send-btn" data-route="homework"><i class="ph ph-arrow-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "profile": {
+    "Note": "Demo Profile. Replace with your actual user context and behavioral patterns."
+  },
+  "threads": {
+    "diary": [],
+    "progress": [],
+    "relations": [],
+    "homework": []
+  }
+}
